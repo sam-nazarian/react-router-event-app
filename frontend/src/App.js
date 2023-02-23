@@ -23,7 +23,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import EditEventPage from './pages/EditEvent';
 import EventDetailPage from './pages/EventDetail';
-import EventsPage from './pages/Events';
+import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventsRootLayout from './pages/EventsRoot';
 
 import HomePage from './pages/Home';
@@ -48,16 +48,7 @@ const router = createBrowserRouter([
             element: <EventsPage />,
             // Just before elm gets rendered this loader gets triggered
             // if a promise is returned (an async func returns a Promise) react-router will yield the value of the promise
-            loader: async () => {
-              const response = await fetch('http://localhost:8080/events');
-
-              if (!response.ok) {
-                // ...
-              } else {
-                const resData = await response.json();
-                return resData.events; //resData is an obj wtih events inside of it, events is an arr fo objects
-              }
-            },
+            loader: eventsLoader,
           },
           { path: ':eventId', element: <EventDetailPage /> },
           { path: 'new', element: <NewEventPage /> }, // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
