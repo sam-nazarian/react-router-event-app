@@ -8,7 +8,14 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     const events = await getAll();
-    res.json({ events: events });
+
+    // Adding a delay before sending the response
+    // the loader must be finishded before react can render the page with the fetched data
+    setTimeout(() => {
+      res.json({ events: events });
+    }, 1500);
+
+    // res.json({ events: events });
   } catch (error) {
     next(error);
   }
