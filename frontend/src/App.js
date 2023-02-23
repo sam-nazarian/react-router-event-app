@@ -35,7 +35,22 @@ const router = createBrowserRouter([
     path: '/', //parent route
     element: <RootLayout />,
     children: [
-      { index: true, element: <HomePage /> },
+      {
+        index: true,
+        element: <HomePage />,
+        // Just before elm gets rendered this loader gets triggered
+        loader: async () => {
+          const response = await fetch('http://localhost:8080/events');
+
+          if (!response.ok) {
+            // setError('Fetching events failed.'); //no states in the loader function
+          } else {
+            const resData = await response.json();
+            // setFetchedEvents(resData.events); //no states in the loader function
+            return resData.events; //resData is an obj wtih events inside of it, events is an arr fo objects
+          }
+        },
+      },
       {
         path: 'events',
         element: <EventsRootLayout />,

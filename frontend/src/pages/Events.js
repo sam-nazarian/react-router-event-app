@@ -1,39 +1,30 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
-const DUMMY_DATA = [
-  {
-    id: 'e1',
-    title: 'A dummy event1',
-    date: '2023-02-22',
-    image: 'https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg',
-    description: 'Join this amazing event and connect with fellow developers.',
-  },
-  {
-    id: 'e2',
-    title: 'A dummy event2',
-    date: '2023-02-22',
-    image: 'https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg',
-    description: 'Join this amazing event and connect with fellow developers.',
-  },
-  {
-    id: 'e3',
-    title: 'A dummy event3',
-    date: '2023-02-22',
-    image: 'https://blog.hubspot.de/hubfs/Germany/Blog_images/Optimize_Marketing%20Events%20DACH%202021.jpg',
-    description: 'Join this amazing event and connect with fellow developers.',
-  },
-];
+import EventsList from '../components/EventsList';
 
+// First renders component then after it fetches for the data,
 function EventsPage() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [fetchedEvents, setFetchedEvents] = useState();
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    async function fetchEvents() {
+      setIsLoading(true);
+
+      setIsLoading(false);
+    }
+
+    fetchEvents();
+  }, []);
+
   return (
     <>
-      <h1>Events Page</h1>
-
-      {DUMMY_DATA.map((event) => (
-        <li key={event.id}>
-          <Link to={event.id}>{event.title}</Link>
-        </li>
-      ))}
+      <div style={{ textAlign: 'center' }}>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+      </div>
+      {!isLoading && fetchedEvents && <EventsList events={fetchedEvents} />}
     </>
   );
 }
