@@ -23,7 +23,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import EditEventPage from './pages/EditEvent';
 import ErrorPage from './pages/Error';
-import EventDetailPage from './pages/EventDetail';
+import EventDetailPage, { loader as eventDetailLoader } from './pages/EventDetail';
 import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             // if a promise is returned (an async func returns a Promise) react-router will yield the value of the promise
             loader: eventsLoader,
           },
-          { path: ':eventId', element: <EventDetailPage /> },
+          { path: ':eventId', element: <EventDetailPage />, loader: eventDetailLoader },
           { path: 'new', element: <NewEventPage /> }, // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
           { path: ':eventId/edit', element: <EditEventPage /> },
         ],

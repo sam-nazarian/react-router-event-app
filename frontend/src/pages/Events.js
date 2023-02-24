@@ -18,7 +18,7 @@ function EventsPage() {
 
 // Can't use react hooks in the loader function as it's not a react component, however can use any browser API as it's ran on the client-side
 export async function loader() {
-  const response = await fetch('http://localhost:8080/events1234');
+  const response = await fetch('http://localhost:8080/events');
 
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };
