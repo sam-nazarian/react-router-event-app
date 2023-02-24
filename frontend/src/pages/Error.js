@@ -1,5 +1,31 @@
+import { useRouteError } from 'react-router-dom';
+import MainNavigation from '../components/MainNavigation';
+
+import PageContent from '../components/PageContent';
+
 function ErrorPage() {
-  return <h1>An error occured!</h1>;
+  const error = useRouteError();
+
+  let title = 'An error occured!';
+  let message = 'Something went wrong!';
+
+  if (error.status === 500) {
+    message = JSON.parse(error.data).message; //convert the string to an object, in order to access the message property
+  }
+
+  if (error.status === 404) {
+    title = 'Not found!';
+    message = 'Could not find resouce or page.';
+  }
+
+  return (
+    <>
+      <MainNavigation />
+      <PageContent title={title}>
+        <p>{message}</p>
+      </PageContent>
+    </>
+  );
 }
 
 export default ErrorPage;

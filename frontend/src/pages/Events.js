@@ -18,11 +18,12 @@ function EventsPage() {
 
 // Can't use react hooks in the loader function as it's not a react component, however can use any browser API as it's ran on the client-side
 export async function loader() {
-  const response = await fetch('http://localhost:8080/events213');
+  const response = await fetch('http://localhost:8080/events');
 
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };
-    throw { message: 'Could not fetch events.' };
+    // throw { message: 'Could not fetch events.', status: '500' };
+    throw new Response(JSON.stringify({ message: 'Could not fetch events. (ERROR IN EVENTS)' }), { status: 500 }); //can't send objects must send strings in Responses
   } else {
     // const resData = await response.json();
     // return resData.events; //resData is an obj wtih events inside of it, events is an arr fo objects
