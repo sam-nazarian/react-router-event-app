@@ -1,5 +1,5 @@
 // You can use useLoaderData() in the element that's assigned to a route AND in all components that might be used inside that element.
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, json } from 'react-router-dom';
 
 import EventsList from '../components/EventsList';
 
@@ -18,12 +18,13 @@ function EventsPage() {
 
 // Can't use react hooks in the loader function as it's not a react component, however can use any browser API as it's ran on the client-side
 export async function loader() {
-  const response = await fetch('http://localhost:8080/events');
+  const response = await fetch('http://localhost:8080/events1234');
 
   if (!response.ok) {
     // return { isError: true, message: 'Could not fetch events.' };
     // throw { message: 'Could not fetch events.', status: '500' };
-    throw new Response(JSON.stringify({ message: 'Could not fetch events. (ERROR IN EVENTS)' }), { status: 500 }); //can't send objects must send strings in Responses
+    // throw new Response(JSON.stringify({ message: 'Could not fetch events. (ERROR IN EVENTS)' }), { status: 500 }); //can't send objects must send strings in Responses
+    throw json({ message: 'Could not fetch events. (ERROR IN EVENTS)' }, { status: 500 }); //json creates a response object, with the data being a json format
   } else {
     // const resData = await response.json();
     // return resData.events; //resData is an obj wtih events inside of it, events is an arr fo objects
