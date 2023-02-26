@@ -30,6 +30,8 @@ import HomePage from './pages/Home';
 import NewEventPage from './pages/NewEvent';
 import RootLayout from './pages/Root';
 
+// Just before elm gets rendered loader gets triggered
+// if a promise is returned (an async func returns a Promise) react-router will yield the value of the promise
 const router = createBrowserRouter([
   {
     path: '/', //parent route
@@ -44,16 +46,18 @@ const router = createBrowserRouter([
         path: 'events',
         element: <EventsRootLayout />,
         children: [
+          { index: true, element: <EventsPage />, loader: eventsLoader },
           {
-            index: true,
-            element: <EventsPage />,
-            // Just before elm gets rendered this loader gets triggered
-            // if a promise is returned (an async func returns a Promise) react-router will yield the value of the promise
-            loader: eventsLoader,
+            path: ':eventId',
+            id: 'event-detail',
+            // loader applied to current route level & levels below
+            loader: eventDetailLoader, // to get the data from the loader do: useRouteLoaderData('event-detail')
+            children: [
+              { index: true, element: <EventDetailPage /> },
+              { path: 'edit', element: <EditEventPage /> },
+            ],
           },
-          { path: ':eventId', element: <EventDetailPage />, loader: eventDetailLoader },
           { path: 'new', element: <NewEventPage /> }, // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
-          { path: ':eventId/edit', element: <EditEventPage /> },
         ],
       },
     ],
