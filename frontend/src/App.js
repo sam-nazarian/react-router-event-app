@@ -27,7 +27,7 @@ import EventDetailPage, { loader as eventDetailLoader } from './pages/EventDetai
 import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
-import NewEventPage from './pages/NewEvent';
+import NewEventPage, { action as newEventAction } from './pages/NewEvent';
 import RootLayout from './pages/Root';
 
 // Just before elm gets rendered loader gets triggered
@@ -57,7 +57,8 @@ const router = createBrowserRouter([
               { path: 'edit', element: <EditEventPage /> },
             ],
           },
-          { path: 'new', element: <NewEventPage /> }, // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
+          // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
+          { path: 'new', element: <NewEventPage />, action: newEventAction },
         ],
       },
     ],
