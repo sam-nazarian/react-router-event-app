@@ -23,7 +23,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import EditEventPage from './pages/EditEvent';
 import ErrorPage from './pages/Error';
-import EventDetailPage, { loader as eventDetailLoader } from './pages/EventDetail';
+import EventDetailPage, { loader as eventDetailLoader, action as deleteEventAction } from './pages/EventDetail';
 import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
             // loader applied to current route level & levels below
             loader: eventDetailLoader, // to get the data from the loader do: useRouteLoaderData('event-detail')
             children: [
-              { index: true, element: <EventDetailPage /> },
+              { index: true, element: <EventDetailPage />, action: deleteEventAction },
               { path: 'edit', element: <EditEventPage /> },
             ],
           },

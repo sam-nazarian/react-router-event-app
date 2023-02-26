@@ -10,6 +10,7 @@ function EventForm({ method, event }) {
 
   return (
     // Form will be sent to your action
+    // action="/any-other-path" to use action of another path
     <Form method="post" className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
