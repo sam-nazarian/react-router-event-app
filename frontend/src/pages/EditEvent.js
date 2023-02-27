@@ -6,7 +6,7 @@ function EventPage() {
   // const data = useLoaderData(); //highest it looks for is loader is it's current route definition
   const data = useRouteLoaderData('event-detail'); //access data from a higher route
 
-  return <EventForm event={data.event} />;
+  return <EventForm method="patch" event={data.event} />;
 }
 
 export default EventPage;

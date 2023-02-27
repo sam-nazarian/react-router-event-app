@@ -27,8 +27,9 @@ import EventDetailPage, { loader as eventDetailLoader, action as deleteEventActi
 import EventsPage, { loader as eventsLoader } from './pages/Events';
 import EventsRootLayout from './pages/EventsRoot';
 import HomePage from './pages/Home';
-import NewEventPage, { action as newEventAction } from './pages/NewEvent';
+import NewEventPage from './pages/NewEvent';
 import RootLayout from './pages/Root';
+import { action as manipulateEventAction } from './components/EventForm';
 
 // Just before elm gets rendered loader gets triggered
 // if a promise is returned (an async func returns a Promise) react-router will yield the value of the promise
@@ -54,11 +55,11 @@ const router = createBrowserRouter([
             loader: eventDetailLoader, // to get the data from the loader do: useRouteLoaderData('event-detail')
             children: [
               { index: true, element: <EventDetailPage />, action: deleteEventAction },
-              { path: 'edit', element: <EditEventPage /> },
+              { path: 'edit', element: <EditEventPage />, action: manipulateEventAction },
             ],
           },
           // as this is more specific react router will use the /new route, rather than '/:eventId' (order does not matter)
-          { path: 'new', element: <NewEventPage />, action: newEventAction },
+          { path: 'new', element: <NewEventPage />, action: manipulateEventAction },
         ],
       },
     ],

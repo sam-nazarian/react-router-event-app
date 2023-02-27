@@ -1,4 +1,4 @@
-import { Form, useNavigate, useNavigation, useActionData } from 'react-router-dom';
+import { Form, useNavigate, useNavigation, useActionData, json, redirect } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
@@ -7,7 +7,7 @@ function EventForm({ method, event }) {
   const navigate = useNavigate();
   const navigation = useNavigation();
 
-  const isSubmitting = navigation.state === 'submitting'; //if the current transition is submitting (when a form is submitted)
+  const isSubmitting = navigation.state === 'submitting'; //if the current transition is submitting (when a form is submitted / an action is being ran)
 
   function cancelHandler() {
     navigate('..');
@@ -16,7 +16,7 @@ function EventForm({ method, event }) {
   return (
     // Form will be sent to your action
     // action="/any-other-path" to use action of another path
-    <Form method="post" className={classes.form}>
+    <Form method={method} className={classes.form}>
       {/* Output validation errors from the backend */}
       {data && data.errors && (
         <ul>
@@ -49,6 +49,44 @@ function EventForm({ method, event }) {
       </div>
     </Form>
   );
+}
+
+export async function action({ request, params }) {
+  const method = request.method;
+  const data = await request.formData(); //data object
+
+  const eventData = {
+    title: data.get('title'), //extracting the name on the form
+    image: data.get('image'),
+    date: data.get('date'),
+    description: data.get('description'),
+  };
+
+  let url = 'http://localhost:8080/events';
+
+  if (method === 'PATCH') {
+    const eventId = params.eventId;
+    url = 'http://localhost:8080/events/' + eventId;
+  }
+
+  const response = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(eventData),
+  });
+
+  // response automatically parsed
+  if (response.status === 422) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: 'Could not save event.' }, { status: 500 });
+  }
+
+  return redirect('/events'); //creates a response object, which redirects user to a different page
 }
 
 export default EventForm;
