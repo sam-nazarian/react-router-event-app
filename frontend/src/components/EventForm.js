@@ -1,8 +1,9 @@
-import { Form, useNavigate, useNavigation } from 'react-router-dom';
+import { Form, useNavigate, useNavigation, useActionData } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
 function EventForm({ method, event }) {
+  const data = useActionData(); //gives access to closest action data
   const navigate = useNavigate();
   const navigation = useNavigation();
 
@@ -16,6 +17,14 @@ function EventForm({ method, event }) {
     // Form will be sent to your action
     // action="/any-other-path" to use action of another path
     <Form method="post" className={classes.form}>
+      {/* Output validation errors from the backend */}
+      {data && data.errors && (
+        <ul>
+          {Object.values(data.errors).map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required defaultValue={event ? event.title : ''} />
