@@ -8,6 +8,7 @@ function EventsPage() {
 
   return (
     <Suspense fallback={<p style={{ textAlign: 'center' }}>Loading...</p>}>
+      {/* the callback function is ran with the fullfield promise when it's fulfilled */}
       <Await resolve={events}>{(loadedEvents) => <EventsList events={loadedEvents} />}</Await>
     </Suspense>
   );
