@@ -44,6 +44,7 @@ async function loadEvents() {
   }
 }
 
+// Use defer when you need to show something before all the data is there.
 export async function loader({ request, params }) {
   const id = params.eventId;
 
